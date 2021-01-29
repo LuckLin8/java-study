@@ -1,0 +1,77 @@
+## volatile是java虚拟机提供的轻量级同步机制
+
+> 1. **保证可见性**
+> 2. **不保证原子性**
+> 3. **保证有序性（禁止指令重排）**
+
+### 前提：JMM内存模型
+> **JMM（java Memory Model）**：java内存模型,抽象的概念，是一种规范。
+> 
+> ![JMM内存模型](https://youdaoyun1.oss-cn-shenzhen.aliyuncs.com/java%E5%9F%BA%E7%A1%80/jmm.jpg)
+> 
+>
+**可见性:** JMM关于同步的规定
+ 1. 线程解锁前，必须将共享变量的值刷新到主内存（可见性）
+ 2. 线程加锁前，必须将主内存中的共享变量复制到工作内存（栈空间）中
+ 3. 加锁解锁是同一把锁（原子性）
+
+ **原子性**
+> 不可分割，线程做某个业务的时候，中间不可分割，整个步骤是完整的，要么同时成功，要么同时失败 
+
+ **有序性（禁止指令重排）**
+> happens- before原理过于晦涩，简单理解为计算机执行程序为了提高性能，会在保证**数据依赖性**的情况下，会对指令进行重新排序，多线程环境线程交替执行，无法保证数据一致性。
+
+ ![指令重排](https://youdaoyun1.oss-cn-shenzhen.aliyuncs.com/java%E5%9F%BA%E7%A1%80/%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92.png)
+ ![指令重排](https://youdaoyun1.oss-cn-shenzhen.aliyuncs.com/java%E5%9F%BA%E7%A1%80/%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%922.png)
+
+## 个人理解
+ 1. **可见性**:可见性其实就是，多个线程不可以同时操作主内存，所以当线程操作共享变量时，必须将共享变量拷贝到自己的**工作内存**中进行运算，运算结束后**刷新回主线程**。如果没有可见性，线程就算对共享变量修改后，主内存的值仍未改变，即对别的线程不可见
+
+ 2. **volatile为什么不保证原子性？** volatile没有锁的机制，允许多个线程同时对一个共享变量进行操作，虽然保证了可见性，但是在线程拷贝共享变量的时候，拷贝的是同一个值，多个线程对自己工作内存的变量进行修改后，覆盖回主内存，会造成数据的丢失
+ 3. **如何解决volatile不保证原子性？**（1）加sync （2）对共享变量使用Atomic（原子类，CAS），就是说将线程对共享变量进行的运算变为原子操作，从复制到工作内存到覆盖主内存的过程变为一个完整的操作。每个线程进行共享变量的运算后，别的线程才可以进行读取运算
+
+ 4. volatile保证有序性原理以及可见性： **内存屏障（Memory Barrier）** 是一个CPU指令，主要作用有两个。
+>（1.）保证特定操作的执行顺序 （2.）保证某些变量的内存可见性
+>
+> 由于编译器和处理器都能执行指令重排优化，在指令间加入Memory Barrier告诉编译器和CPU，无论什么指令都不可以与该指令重排。即**通过插入内存屏障禁止在内存屏障前后的指令执行重排序优化**。
+>
+> 内存屏障另一个作用就是刷新各种CPU缓存数据，因此在任何线程上读取到的都是数据的最新版本
+>
+> 有volatile修饰的变量，赋值后（前面mov%eax，0x150(%esi)这句便 是赋值操作）多执行了一个“lock addl$0x0，(%esp)”操作，这个操作的作用相当于一个内存屏障 （Memory Barrier或Memory Fence，指重排序时不能把后面的指令重排序到内存屏障之前的位置
+
+![内存屏障](https://youdaoyun1.oss-cn-shenzhen.aliyuncs.com/java%E5%9F%BA%E7%A1%80/%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C.png)
+ 
+### 扩展：DCL模式（Double Check Lock）双端检锁单例模式
+ ```java
+ /**
+ * DCL模式（Double Check Lock）双端检锁模式
+ */
+public class SingletonDemo {
+    private static volatile SingletonDemo instance = null;
+
+    private SingletonDemo() {
+    }
+
+    public static SingletonDemo getInstance() {
+        if (instance == null) {
+            synchronized (SingletonDemo.class) {
+                if (instance == null) {
+                    instance = new SingletonDemo();
+                }
+            }
+        }
+        return instance;
+    }
+}
+ ```
+ > 理论上无需添加volatile关键字就可以保证多线程的单例，但是为什么需要添加volatile？
+ >
+ > **指令重排** 某一个线程执行到第一个检测时，读取到instance不为null,但是instance可能并没有完成初始化
+ >
+ > 对象初始化分为:
+ >
+ > 1. 分配对象内存空间
+ > 2. 初始化对象
+ > 3. 设置instance指向刚分配的地址，此时instance!=null
+ 
+ > 由于指令重排的原因，没有按照1-> 2-> 3 的顺序进行执行指令，反而按照1-> 3 ->2的顺序进行了执行，导致instance指向的内存空间没有完成初始化对象
