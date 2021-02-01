@@ -11,11 +11,5 @@ import java.util.concurrent.locks.ReentrantLock;
  **/
 public class Test {
     public static void main(String[] args) {
-        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
-        concurrentHashMap.put("1","1");
-        HashMap hashMap = new HashMap();
-        hashMap.put("1","1");
-
-        LongAdder longAdder = new LongAdder()
     }
 }
