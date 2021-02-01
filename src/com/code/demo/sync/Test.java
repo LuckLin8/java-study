@@ -1,6 +1,11 @@
 package com.code.demo.sync;
 
+<<<<<<< HEAD
 import java.util.concurrent.ConcurrentHashMap;
+=======
+import java.util.HashMap;
+import java.util.Map;
+>>>>>>> bf39b600286b077ec01dbfb43ea28b1e3ea0c261
 
 /**
  * @Date 2021/1/29 14:15
@@ -146,5 +151,15 @@ public class Test {
         //node节点的hash值fh，等于-1表示正在扩容，>0表示为链表 否则为红黑树结构
 
         //如果桶上的链表>8并不会直接进行转换红黑树，只有在数组长度>64 的时候，才会进行转换树，否则进行扩容
+    }
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i< nums.length; i++) {
+            if(map.containsKey(target - nums[i])) {
+                return new int[] {map.get(target-nums[i]),i};
+            }
+            map.put(nums[i], i);
+        }
+        throw new IllegalArgumentException("No two sum solution");
     }
 }
