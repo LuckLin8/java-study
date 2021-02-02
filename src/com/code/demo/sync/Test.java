@@ -1,8 +1,7 @@
 package com.code.demo.sync;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
 
 /**
  * @Date 2021/1/29 14:15
@@ -10,8 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  **/
 public class Test {
     public static void main(String[] args) {
-        CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList();
-        copyOnWriteArrayList.add(1);
     }
 
     /**
