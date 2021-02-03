@@ -16,7 +16,7 @@
         * [ConcurrentHashMap](java容器/Map/3.ConcurrentHashMap.md)
 * [并发编程]()
     * [JMM内存模型和volatile](并发编程/1.JMM内存模型和volatile.md)
-    * [CAS(Compare-and-Swap)](并发编程/2.CAS(Compare-and-Swap).md)
+    * [CAS](并发编程/2.CAS.md)
     * [锁](并发编程/3.锁.md)
     * [同步组件](并发编程/4.CountDownLatch、CyclicBarrier、Semaphore.md)
     * [AQS原理以及AQS同步组件](并发编程/5.AQS原理以及AQS同步组件.md)
