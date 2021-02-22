@@ -41,6 +41,7 @@
             * [概述](redis原理/核心设计/1.redis核心设计概述.md)
             * [redis为什么这么快？](redis原理/核心设计/2.redis为什么这么快.md)
             * [AOF日志](redis原理/核心设计/3.AOF日志.md)
+            * [RDB日志](redis原理/核心设计/4.RDB日志.md)
     * [常见问题]()
         * [热key击穿穿透雪崩](redis原理/常见问题/1.热key击穿穿透雪崩.md)
 * [分布式]()
