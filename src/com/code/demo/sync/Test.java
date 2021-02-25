@@ -1,15 +1,17 @@
 package com.code.demo.sync;
 
+import com.code.demo.utils.ThreadPoolUtil;
+
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @Date 2021/1/29 14:15
  * @Author LBWNB
  **/
 public class Test {
-    public static void main(String[] args) {
-    }
+
 
     /**
      * 两数和为定值返回下标
@@ -56,4 +58,46 @@ public class Test {
             return getKth(nums1, i + 1, end1, nums2, start2, end2, k - (i - start1 + 1));
         }
     }
+
+    public static void main(String[] args) {
+        Test test = new Test();
+        ThreadPoolExecutor executor = ThreadPoolUtil.createThreadPoolByName(17, 1000, 1000, "测试同步方法线程池");
+        executor.execute(()-> {
+            try {
+                test.testA();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        executor.execute(()-> {
+            try {
+                test.testB();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    ReentrantLock lock = new ReentrantLock();
+    public void testA() throws InterruptedException {
+        lock.lock();
+        try {
+            System.out.println(Thread.currentThread().getName()+"进入A方法");
+            TimeUnit.SECONDS.sleep(3);
+            testB();
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public void testB() throws InterruptedException {
+        lock.lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + "进入B方法");
+            TimeUnit.SECONDS.sleep(3);
+            System.out.println(Thread.currentThread().getName() + "退出B方法");
+        }finally {
+            lock.unlock();
+        }
+    }
+
 }
