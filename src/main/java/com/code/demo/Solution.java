@@ -15,9 +15,6 @@ public class Solution {
                 return "";
             }
             if (null == tempString || "".equals(tempString) || str.equals(tempString)){
-                if ("".equals(str)){
-                    return tempString;
-                }
                 tempString = str;
                 continue;
             }
