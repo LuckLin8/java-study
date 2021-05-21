@@ -57,11 +57,11 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        Solution solution = new Solution();
-        String [] strings = {"caa","","a","acb"};
-        System.out.println(solution.longestCommonPrefix(strings));
-
-        solution.isValid("()");
+//        Solution solution = new Solution();
+//        String [] strings = {"caa","","a","acb"};
+//        System.out.println(solution.longestCommonPrefix(strings));
+//
+//        solution.isValid("()");
 
     }
 }
