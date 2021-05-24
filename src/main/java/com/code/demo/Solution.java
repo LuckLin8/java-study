@@ -2,6 +2,7 @@ package com.code.demo;
 
 import java.util.Arrays;
 import java.util.Stack;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @Date 2021/3/17 9:53
@@ -62,6 +63,7 @@ public class Solution {
 //        System.out.println(solution.longestCommonPrefix(strings));
 //
 //        solution.isValid("()");
+        CopyOnWriteArrayList
 
     }
 }
