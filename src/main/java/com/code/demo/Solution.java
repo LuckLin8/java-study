@@ -12,19 +12,19 @@ public class Solution {
     public String longestCommonPrefix(String[] strs) {
         String tempString = "";
         for (String str : strs) {
-            if ("".equals(str)){
+            if ("".equals(str)) {
                 return "";
             }
-            if (null == tempString || "".equals(tempString) || str.equals(tempString)){
+            if (null == tempString || "".equals(tempString) || str.equals(tempString)) {
                 tempString = str;
                 continue;
             }
             String temp = "";
-            for (int i = 0; i < (Math.min(str.length(), tempString.length())); i++){
-                if (str.substring(i,i+1).equals(tempString.substring(i,i+1))){
-                    temp += str.substring(i,i+1);
-                }else {
-                    if ("".equals(temp)){
+            for (int i = 0; i < (Math.min(str.length(), tempString.length())); i++) {
+                if (str.substring(i, i + 1).equals(tempString.substring(i, i + 1))) {
+                    temp += str.substring(i, i + 1);
+                } else {
+                    if ("".equals(temp)) {
                         return temp;
                     }
                     break;
@@ -41,15 +41,15 @@ public class Solution {
             String temp = s.substring(i, i + 1);
             if ("(".equals(temp)) {
                 stack.push(")");
-            }else if ("[".equals(temp)){
+            } else if ("[".equals(temp)) {
                 stack.push("]");
-            }else if ("{".equals(temp)){
+            } else if ("{".equals(temp)) {
                 stack.push("}");
             } else {
-                if (stack.isEmpty()){
+                if (stack.isEmpty()) {
                     return false;
                 }
-                if (!stack.pop().equals(temp)){
+                if (!stack.pop().equals(temp)) {
                     return false;
                 }
             }
@@ -57,13 +57,30 @@ public class Solution {
         return true;
     }
 
+    private static long count = 0L;
+
     public static void main(String[] args) {
 //        Solution solution = new Solution();
 //        String [] strings = {"caa","","a","acb"};
 //        System.out.println(solution.longestCommonPrefix(strings));
 //
 //        solution.isValid("()");
-        CopyOnWriteArrayList
-
+//        System.out.println(climbStairs(45));
+//        System.out.println(count);
+        int i = 0;
     }
+
+    public static int climbStairs(int n) {
+        count++;
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        } else if (n == 2) {
+            return 2;
+        } else {
+            return climbStairs(n - 1) + climbStairs(n - 2);
+        }
+    }
+
 }
