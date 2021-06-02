@@ -1,6 +1,7 @@
 package com.code.demo;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Stack;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -36,24 +37,24 @@ public class Solution {
     }
 
     public boolean isValid(String s) {
-        Stack<String> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            String temp = s.substring(i, i + 1);
-            if ("(".equals(temp)) {
-                stack.push(")");
-            } else if ("[".equals(temp)) {
-                stack.push("]");
-            } else if ("{".equals(temp)) {
-                stack.push("}");
-            } else {
-                if (stack.isEmpty()) {
-                    return false;
-                }
-                if (!stack.pop().equals(temp)) {
-                    return false;
-                }
-            }
-        }
+//        Stack<String> stack = new Stack<>();
+//        for (int i = 0; i < s.length(); i++) {
+//            String temp = s.substring(i, i + 1);
+//            if ("(".equals(temp)) {
+//                stack.push(")");
+//            } else if ("[".equals(temp)) {
+//                stack.push("]");
+//            } else if ("{".equals(temp)) {
+//                stack.push("}");
+//            } else {
+//                if (stack.isEmpty()) {
+//                    return false;
+//                }
+//                if (!stack.pop().equals(temp)) {
+//                    return false;
+//                }
+//            }
+//        }
         return true;
     }
 
@@ -68,19 +69,6 @@ public class Solution {
 //        System.out.println(climbStairs(45));
 //        System.out.println(count);
         int i = 0;
-    }
 
-    public static int climbStairs(int n) {
-        count++;
-        if (n == 0) {
-            return 0;
-        } else if (n == 1) {
-            return 1;
-        } else if (n == 2) {
-            return 2;
-        } else {
-            return climbStairs(n - 1) + climbStairs(n - 2);
-        }
     }
-
 }
